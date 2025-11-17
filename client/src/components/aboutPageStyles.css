@@ -1,0 +1,81 @@
+
+.textoabout a {
+    color: #880f4c; 
+    font-weight: bold; 
+    list-style-type: none;
+  }
+  
+
+  .textoabout a:hover {
+    color: #9b59b6; 
+  }
+  
+  .about-container{
+    color: #6f42c1; 
+    font-weight: bold; 
+    text-align: center;
+    list-style-type: none;
+    padding: 20px; 
+  
+  }
+  
+
+.about-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.about-content {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.about-subtitle {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: white;
+
+}
+
+.about-team {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 30px;
+    color: white;
+
+}
+
+.about-team li {
+    font-size: 16px;
+    margin-bottom: 10px;
+    
+}
+
+.about-github a {
+    color: #007bff;
+    text-decoration: none;
+    
+}
+
+.about-github a:hover {
+    text-decoration: underline;
+}
+
+.back-link {
+    position: fixed;
+    bottom: 20px; 
+    right: 20px; 
+    padding: 10px 20px;
+    background-color: #6f42c1;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.back-link:hover {
+    background-color: #9b59b6;
+}
