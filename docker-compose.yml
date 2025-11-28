@@ -41,8 +41,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - REACT_APP_API_URL=http://localhost:5000
-      - WDS_SOCKET_HOST=127.0.0.1 
+      - REACT_APP_API_URL=http://172.172.133.83:5000
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
     depends_on:
