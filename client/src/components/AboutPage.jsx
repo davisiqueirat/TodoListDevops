@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import './aboutPageStyles.css';
 
@@ -12,7 +11,7 @@ const AboutPage = () => {
             <h2 className="about-subtitle">Equipe</h2>
             <ul className="about-team">
                 <li>Davi Siqueira </li>
-                <li>Gabriel Torres </li>
+                <li>Gabriel Torress </li>
             </ul>
             <div className="about-github">
                 <p>Link do repositório no GitHub:</p>
