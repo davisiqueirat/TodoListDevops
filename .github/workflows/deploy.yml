@@ -1,23 +1,21 @@
-name: Simple Deploy
+name: Deploy with Self-Hosted Runner
 
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   deploy:
-    runs-on: proj-todolist-devops
+    runs-on: self-hosted
     
     steps:
-    - name: Deploy to VM
-      uses: appleboy/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.VM_HOST }}
-        username: ${{ secrets.VM_USER }}
-        key: ${{ secrets.VM_SSH_KEY }}
-        script: |
-          cd ~/TodoListDevops
-          git pull
-          docker-compose down
-          docker-compose up -d --build
-          docker ps
+    - name: Deploy Application
+      run: |
+        echo "🚀 Deploy iniciado"
+        cd /opt/deploy/TodoListDevops
+        git pull
+        docker-compose down
+        docker-compose up -d --build
+        docker ps
+        echo "✅ Deploy concluído!"
