@@ -1,5 +1,10 @@
+version: '3.8'
+
 services:
-  # Serviço do MongoDB
+  # ==========================================
+  # APLICAÇÃO (TODO LIST)
+  # ==========================================
+  
   mongodb:
     image: mongo:6
     container_name: todos-mongodb
@@ -15,7 +20,6 @@ services:
     networks:
       - todos-network
 
-  # Serviço da aplicação Node.js (Backend)
   todos-backend:
     build: ./server
     container_name: todos-backend
@@ -33,13 +37,12 @@ services:
       - ./server:/app
       - /app/node_modules
 
-  # Serviço do Frontend React
   frontend:
     build: ./client
     container_name: todos-frontend
     restart: always
     ports:
-      - "3000:3000"
+      - "3000:3000" # React fica na porta 3000
     environment:
       - REACT_APP_API_URL=http://172.172.133.83:5000
       - CHOKIDAR_USEPOLLING=true
@@ -54,11 +57,85 @@ services:
     stdin_open: true
     tty: true
 
-# Volume para persistir os dados do MongoDB
+  # ==========================================
+  # MONITORAMENTO (ZABBIX + GRAFANA)
+  # ==========================================
+
+  zabbix-postgres: # Renomeei para evitar confusão com outros postgres
+    image: postgres:15
+    container_name: zabbix-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: zabbix
+      POSTGRES_PASSWORD: zabbixpass
+      POSTGRES_DB: zabbix
+    volumes:
+      - zabbix_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - todos-network
+
+  zabbix-server:
+    image: zabbix/zabbix-server-pgsql:latest
+    container_name: zabbix-server
+    restart: unless-stopped
+    environment:
+      DB_SERVER_HOST: zabbix-postgres
+      POSTGRES_USER: zabbix
+      POSTGRES_PASSWORD: zabbixpass
+      POSTGRES_DB: zabbix
+    depends_on:
+      - zabbix-postgres
+    ports:
+      - "10051:10051"
+    networks:
+      - todos-network
+
+  zabbix-frontend:
+    image: zabbix/zabbix-web-nginx-pgsql:latest
+    container_name: zabbix-frontend
+    restart: unless-stopped
+    environment:
+      DB_SERVER_HOST: zabbix-postgres
+      POSTGRES_USER: zabbix
+      POSTGRES_PASSWORD: zabbixpass
+      POSTGRES_DB: zabbix
+      ZBX_SERVER_HOST: zabbix-server
+      PHP_TZ: America/Sao_Paulo
+    ports:
+      - "8085:8080" # Interface do Zabbix na porta 8085
+    depends_on:
+      - zabbix-server
+    networks:
+      - todos-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000" # ALTERADO: Grafana acessível em http://localhost:3001
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_INSTALL_PLUGINS: "alexanderzobnin-zabbix-app"
+    depends_on:
+      - zabbix-postgres
+      - zabbix-server
+    networks:
+      - todos-network
+
+# ==========================================
+# VOLUMES E REDES
+# ==========================================
 volumes:
   mongodb_data:
+  zabbix_pgdata: # Volume específico para o Postgres do Zabbix
+  grafana_data:
 
-# Rede para comunicação entre os containers
 networks:
   todos-network:
     driver: bridge
