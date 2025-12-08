@@ -1,11 +1,15 @@
 ## Integrantes 
 
 Davi Siqueira - 01633448
+
 Pedro Henrique Baade - 01361837
-Ricardo George Albuquerque Moura
-- 01536175
+
+Ricardo George Albuquerque Moura-01536175
+
 Tiffany Gomes de Almeida - 01533205
+
 Ylgner Leite Cavalcanti - 01237934
+
 Gabriel Torres da Silva - 01613315
 
 ## Projeto
