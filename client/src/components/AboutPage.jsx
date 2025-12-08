@@ -11,7 +11,11 @@ const AboutPage = () => {
             <h2 className="about-subtitle">Equipe</h2>
             <ul className="about-team">
                 <li>Davi Siqueira </li>
+                <li>Pedro Henrique Baade </li>
+                <li>Ricardo George Albuquerque </li>
+                <li>Tiffany Gomes de Almeida </li>
                 <li>Gabriel Torres </li>
+                <li>Ylgner Leite Cavalcanti </li>
             </ul>
             <div className="about-github">
                 <p>Link do repositório no GitHub:</p>
